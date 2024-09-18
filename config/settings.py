@@ -43,6 +43,8 @@ INSTALLED_APPS = [
 
     'accounts',
     'pages',
+    'books',
+
 
 
 ]
