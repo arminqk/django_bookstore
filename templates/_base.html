@@ -17,6 +17,10 @@
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
+{% block styles %}
+
+{% endblock %}
+
     <title>{% block page_title %}{% endblock %}</title>
 
 
@@ -28,18 +32,28 @@
             <img src="icons/book.png" alt="" height="30"
                  class="d-inline-block align-text-top">
         </a>
-        <a class="navbar-brand mx-3" href="#">کتاب یار</a>
+        <a class="navbar-brand mx-3" href="#">Book Web </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link active" aria-current="page" href="#">خانه</a>
-                <a class="nav-link" href="#">اضافه کردن کتاب</a>
+                <a class="nav-link active" aria-current="page" href="{%  url 'book_list' %}">Home</a>
+                <a class="nav-link" href="#">  </a>
             </div>
         </div>
-        <div class="mx-2 text-white">خوش آمدی محمدهادی | <a class="link-light text-decoration-none" href="#">خروج</a></div>
+        <div class="mx-2 text-white">
+            {% if user.is_authenticated %}
+            Welcome {{ user.username }}   |
+                <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type = "submit" >Log Out</button>
+                </form></div>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a> | <a href="{% url 'signup' %}">Signup</a>
+            {% endif %}
+
     </div>
 </nav>
 
