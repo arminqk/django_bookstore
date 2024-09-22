@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 # Create your views here.
 from django.views import generic
 from .models import Book
+from .forms import CommentForm
 
 class BookListView(generic.ListView):
     model = Book
@@ -19,7 +20,20 @@ def book_detail_view(request,pk):
     book = get_object_or_404(Book , pk=pk)
     #book comments
     book_comments = book.comments.all()
-    return render(request , 'books/book_detail.html' , {'book':book , 'comments':book_comments})
+
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.book = book
+            new_comment.user = request.user
+            new_comment.save()
+            comment_form = CommentForm()
+    else:
+        comment_form = CommentForm()
+    return render(request , 'books/book_detail.html' , {'book':book ,
+                                                        'comments':book_comments ,
+                                                        'comment_form':comment_form},)
 
 
 
