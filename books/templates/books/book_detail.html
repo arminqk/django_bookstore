@@ -20,8 +20,12 @@
                         <h1>{{ book.title }}</h1>
                         <h5 class="small my-1"><span class="text-muted">author : </span>{{  book.author}}</h5>
                         <h5 class="small my-1"><span class="text-muted">added by : </span>{{  book.user}}</h5>
-                        <a href="{% url 'book_delete' book.id %}"><h5>Delete</h5></a>
 
+                        {% if book.user == user %}
+
+                        <a href="{% url 'book_delete' book.id %}"><h5>Delete</h5></a>
+                        <a href="{% url 'book_update' book.id %}"><h5>Edit</h5></a>
+                        {% endif %}
                     </div>
                     <div class="col-xs-12 col-md-3 d-flex flex-column">
                         <h3 class="align-self-center pt-2 text-muted align-self-md-end">
